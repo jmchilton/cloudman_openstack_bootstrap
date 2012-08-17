@@ -13,12 +13,12 @@ CloudMan setups will place Galaxy and tools on cloud block storage, my
 current setup bakes these right into the cloud images (installing them
 to /opt/galaxy instead of /mnt/galaxyTools).
 
-These scripts are so tailored to this setup, that they this is a
-worthless project to you. Hopefully though it does serve to document
-how to tweak CloudMan and CloudBioLinux for some alternative
+These scripts are so tailored to this setup, that this is a project of
+no worth to you. Hopefully though it does serve to document how to
+tweak CloudMan and CloudBioLinux for some alternative
 scenarios. Besides, this page
 http://wiki.g2.bx.psu.edu/CloudMan/OpenStack remains empty, so this is
-what you get ;).
+what you get ;)
 
 1. Download these scripts and CloudBioLinux.
 

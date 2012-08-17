@@ -1,0 +1,53 @@
+# This is where this whole example project becomes useless :), this
+# user data is highly specific to my setup where I am disabling object
+# storage interaction, specifing a postgres server outside the cloud,
+# and mounting non-cloud storage to be used as galaxy's data
+# directory. You will need to construct a user_data file more
+# appropriate to your setup.
+
+cluster_name: galaxy
+password: changeme
+
+# These will get replaced by launch_cm.sh
+access_key: EC2_ACCESS_KEY
+secret_key: EC2_SECRET_KEY
+
+cloud_type: openstack
+use_default_bucket: True
+default_bucket_url: https://bitbucket.org/jmchilton/cloudman/raw/tip/
+cloudman_repository: https://bitbucket.org/jmchilton/cloudman/get/tip.tar.gz
+# Disable object store interactions.
+use_object_store: False
+services:
+
+## Disable postgres server, specifing a fix Postgres instance outside
+## the cloud.
+#  - service: Postgres
+  - service: Galaxy
+
+## Override various directories locations to find galaxy, tools, and
+## configuration directory.
+
+galaxy_tools: /opt/galaxy/tools
+galaxy_home: /opt/galaxy/web
+galaxy_conf_dir: /opt/galaxy/web/conf.d
+
+galaxy_universe_default_cluster_job_runner: "drmaa:///"
+galaxy_universe_start_job_runners: drmaa
+
+# Set up galaxy to use LDAP, none of this would be needed in a more
+# vanilla CloudMan configuration.
+galaxy_universe_use_remote_user: True
+galaxy_universe_remote_user_maildomain: msi.umn.edu
+galaxy_universe_remote_user_logout_href: http://logout@galaxyp.msi.umn.edu/
+galaxy_universe_require_login: True
+
+# Setup Galaxy to use a database hosted outside the cloud
+galaxy_universe_database_connection: postgres://galaxy:abcdefg@db.example.org:5432/galaxy
+
+# Setup a particular tool to submit jobs to hosts outside the cloud (such as Windows hosts).
+# galaxy_tool_runner_wintool: "lwr://https://abcdef@winhost.example.org:8913"
+
+master_prestart_commands:
+  - "mkdir -p /mnt/galaxyData"
+  - "mount -t nfs4 -o sec=sys nfs.example.org:/export/galaxy /mnt/galaxyData/"

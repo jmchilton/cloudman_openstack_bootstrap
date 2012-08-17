@@ -1,0 +1,68 @@
+## CloudBioLinux install parameters, copy this to fabricrc.txt and
+## modify as needed. This file corresponds to my "non-standard" setup
+## that is installing tools and Galaxy into /opt/galaxy instead of
+## /mnt/galaxyTools. This non-standard setup is also using my
+## cloud-galaxy-dist fork of Galaxy that preconfigures various paths
+## for cloud-based Galaxy as symbolic links right in the repository,
+## setups a configuration directory for easy runtime configuration via
+## my CloudMan extensions, etc...
+##
+##
+##
+## A more standard CloudMan setup could be accomplished with the 
+## default CloudBioLinux fabricrc.txt options.
+## https://raw.github.com/chapmanb/cloudbiolinux/master/config/fabricrc.txt
+
+distribution = ubuntu
+dist_name = precise
+edition = cloudbiolinux
+is_ec2_image = false
+# Global installation directory for packages and standard programs
+system_install = /usr
+# Local install directory for versioned software that will not
+# be included in the path by default
+local_install = ~/install
+shell_config = ~/.bashrc
+shell = /bin/bash -l -c
+# Global setting for using sudo; allows installation of custom packages
+# by non-privileged users.
+# system_install needs to point to a user writeable directory if set to False
+use_sudo = true 
+
+# details for biological data files and Galaxy
+#data_files = /mnt/biodata
+#galaxy_base = /mnt/biodata/galaxy
+
+# Picard home
+picard_home = /usr/share/java/picard
+
+## Override nginx path to use my hacked nginx.conf that enabled LDAP
+## auth. You will not want this.
+# nginx_conf_path = /home/john/galaxp-cloudman/nginx.conf
+## Enable nginx ldap
+nginx_enable_module_ldap = true
+
+## Override galaxy webapp install path (defaults to
+## /mnt/galaxyTools/galaxy-central
+galaxy_home = /opt/galaxy/web
+
+## Override galaxy tool dir install path (defaults
+galaxy_tools_dir = /opt/galaxy/tools
+
+## Override galaxy webapp jars path
+galaxy_jars_dir = /opt/galaxy/jars
+
+## Repository to install Galaxy from, if repo includes changesets from
+## jmchilton's cloud-galaxy-dist, galaxy_preconfigured_repository
+## should be set to true.
+galaxy_repository = https://bitbucket.org/jmchilton/cloud-galaxy-dist
+galaxy_preconfigured_repository = true
+
+## nfs mounts used by cloudman (defaults to /mnt/galaxyData, /mnt/galaxyIndices, and /mnt/galaxyTools)
+galaxy_data_mount = /mnt/galaxyData
+galaxy_indices_mount = /mnt/galaxyIndices
+galaxy_tools_mount = /opt/galaxy
+
+## Install galaxy dependencies (defaults to false)
+galaxy_install_dependencies = true
+galaxy_install_r_packages = true

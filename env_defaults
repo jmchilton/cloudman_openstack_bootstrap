@@ -1,0 +1,51 @@
+# Default environment variables controlling various aspects of the launching
+# and interacting with CloudBioLinux and OpenStack. If these variables are
+# also specified in galaxy_env, that file will take precedence so overrides
+# should be placed there.
+
+# This project directory, DO NOT CHANGE!
+export PROJECT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# OpenStack image type to use.
+export FLAVOR=${FLAVOR:-4} # Large instance on OpenStack by default
+
+# Name of OpenStack security group
+export SECGROUP=${SECGROUP:-default}
+
+# Location of OpenStack key.
+export KEYFILE=${KEYFILE:-$PROJECT_DIRECTORY/galaxy_key}
+
+# Name of OpenStack key (registered with setup_key.sh or nova create-keypair)
+export KEYNAME=${KEYNAME:-default}
+
+# Name of instance that gets brought up by launch_initial.sh for installing
+# CloudBioLinux/CloudMan.
+export INSTANCE_NAME_SETUP=${INSTANCE_NAME_SETUP:-cloudman_bootstrap}
+
+# Name of configured CloudMan/Galaxy instance that actually gets brought up by
+# launch_cm.sh
+export INSTANCE_NAME_RUNTIME=${INSTANCE_NAME_RUNTIME:-galaxy_master}
+
+# Location of cloudbiolinux
+export CBL_HOME=${CBL_HOME:-$PROJECT_DIRECTORY/cloudbiolinux}
+
+# CloudBioLinux package targetted by install_cloudman.sh
+export CBL_PACKAGE_LIST=${CBL_PACKAGE_LIST:-$CBL_HOME/contrib/cloudman/cloudman_and_galaxy.yaml}
+
+# CloudBioLinux fabricrc file.
+export CBL_FABRICRC=${CBL_FABRICRC:-$PROJECT_DIRECTORY/fabricrc.txt}
+
+# Array of commands to run preinstall of CloudBioLinux. Currently using this
+# to specify some internal MSI apt repositories and packages.
+EMPTY_ARRAY=()
+export CBL_PREINSTALL_CMDS=${CBL_PREINSTALL_CMDS:-$EMPTY_ARRAY}
+
+# Allow aliases to be used in other scripts.
+if [ -n "$BASH_VERSION" ];
+then
+        shopt -s expand_aliases
+fi
+
+# Shortcuts to ease ssh/scp into cloud instance.
+alias cblssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $KEYFILE -l ubuntu "
+alias cblscp="scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $KEYFILE -l ubuntu"

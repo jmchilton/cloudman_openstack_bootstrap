@@ -1,0 +1,134 @@
+# Copy this file to nginx.conf, modify, and set nginx_conf_path to its
+# path in fabricrc.txt to override the default CloudBioLinux/CloudMan
+# nginx conf. This example for instance demonstrates how to tie nginx
+# into an LDAP server for authentication.
+worker_processes  2;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+
+    auth_ldap_url ldaps://ldap.example.org:636/ou=people,ou=internal?uid?sub?(objectClass=person);
+    #auth_ldap_binddn cn=nginx,ou=service,dc=example,dc=com;
+    #auth_ldap_binddn_passwd mYsUperPas55W0Rd
+
+    gzip  on;
+    gzip_http_version 1.1;
+    gzip_vary on;
+    gzip_comp_level 4;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/x-javascript text/xml application/xml text/javascript application/json;
+    gzip_buffers 16 8k;
+    gzip_disable "MSIE [1-6].(?!.*SV1)";
+
+    upstream galaxy_app {
+        server localhost:8080;
+    }
+
+    upstream cm_app {
+        server localhost:42284;
+    }
+
+    server {
+        listen       80;
+        client_max_body_size 2048m;
+        server_name  localhost;
+        proxy_read_timeout 600;
+
+        location /cloud {
+            proxy_pass  http://cm_app;
+            proxy_set_header   X-Forwarded-Host $host;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+            error_page   502    /errdoc/cm_502.html;
+        }
+
+        location /cloud/static {
+            alias /mnt/cm/static;
+            expires 24h;
+        }
+
+        location /cloud/static/style {
+            alias /mnt/cm/static/style;
+            expires 24h;
+        }
+
+        location /cloud/static/scripts {
+            alias /mnt/cm/static/scripts;
+            expires 24h;
+        }
+
+        location / {
+            auth_ldap_require valid_user;
+            auth_ldap "LDAP Access";
+            proxy_set_header REMOTE_USER $remote_user;
+
+
+            proxy_pass  http://galaxy_app;
+            proxy_set_header   X-Forwarded-Host $host;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+
+        location /static {
+            alias /opt/galaxy/web/static;
+            expires 24h;
+        }
+
+        location /static/style {
+            alias /opt/galaxy/web/static/june_2007_style/blue;
+            expires 24h;
+        }
+
+        location /static/scripts {
+            alias /opt/galaxy/web/static/scripts/packed;
+            expires 24h;
+        }
+
+        location /robots.txt {
+            alias /opt/galaxy/web/static/robots.txt;
+        }
+
+        location /favicon.ico {
+            alias /opt/galaxy/web/static/favicon.ico;
+        }
+
+        location /_x_accel_redirect/ {
+            internal;
+            alias /;
+        }
+
+        location /_upload {
+            upload_store /mnt/galaxyData/upload_store;
+            upload_pass_form_field "";
+            upload_set_form_field "__${upload_field_name}__is_composite" "true";
+            upload_set_form_field "__${upload_field_name}__keys" "name path";
+            upload_set_form_field "${upload_field_name}_name" "$upload_file_name";
+            upload_set_form_field "${upload_field_name}_path" "$upload_tmp_path";
+            upload_pass_args on;
+            upload_pass /_upload_done;
+        }
+
+        location /_upload_done {
+            set $dst /tool_runner/index;
+            if ($args ~ nginx_redir=([^&]+)) {
+                set $dst $1;
+            }
+            rewrite "" $dst;
+        }
+
+        error_page   502    /errdoc/502.html;
+        location /errdoc {
+            root   html;
+        }
+
+    }
+
+}
+
+
+

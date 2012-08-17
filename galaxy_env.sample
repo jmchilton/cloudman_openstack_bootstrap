@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Parameters for interacting with OpenStack, copy this file to galaxy_env and
+# modify to match you
+
+export EC2_ACCESS_KEY=XXXXXXXXXXXXXXx
+export EC2_SECRET_KEY=XXXXXXXXXXXXXXXXX
+export OS_AUTH_URL=http://examplecloud.org:5000/v2.0/
+export OS_USERNAME=galaxy
+export OS_PASSWORD='galaxypassword'
+export OS_TENANT_NAME='galaxy'
+export NOVA_VERSION=1.1
+export EC2_URL=http://examplecloud.org:8773/services/Cloud/
+
+# Optional: Needed if assigning a public ip address to your Galaxy/CloudMan instance.
+export GALAXY_IP="1.1.1.1"
+
+# Image id of stock Ubuntu image. This can installed in your cloud using glance:
+#   - Setup nova admin environment
+#   - % wget http://uec-images.ubuntu.com/precise/current/precise-server-cloudimg-amd64-disk1.img
+#   - % glance add name="Ubuntu 12.04 clouding amd64" is_public=True disk_format="qcow2" container_format="ovf" < precise-server-cloudimg-amd64-disk1.img
+#   - % nova image-list | grep "Ubuntu 12.04 clouding amd64" | awk '{print $2}'
+export UBUNTU_IMAGE_ID="00000000-0000-0000-0000-000000000000"
+
+# Leave this line, it loads many other default variables, any of which can be
+# specified in this file.
+. env_defaults

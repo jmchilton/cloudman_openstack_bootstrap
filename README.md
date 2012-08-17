@@ -17,60 +17,60 @@ These scripts are so tailored to this setup, that they this is a
 worthless project to you. Hopefully though it does serve to document
 how to tweak CloudMan and CloudBioLinux for some alternative
 scenarios. Besides, this page
-http://wiki.g2.bx.psu.edu/CloudMan/OpenStack remain empty, so this is
-what you get :).
+http://wiki.g2.bx.psu.edu/CloudMan/OpenStack remains empty, so this is
+what you get ;).
 
-* Download these scripts and CloudBioLinux.
+1. Download these scripts and CloudBioLinux.
 
-    % git clone git://github.com/jmchilton/cloudman_openstack_bootstrap.git
-    % cd cloudman_openstack_bootstrap
-    % git clone git://github.com/chapmanb/cloudbiolinux.git
+        % git clone git://github.com/jmchilton/cloudman_openstack_bootstrap.git
+        % cd cloudman_openstack_bootstrap
+        % git clone git://github.com/chapmanb/cloudbiolinux.git
 
-* Populate galaxy_env with your connection parameters.
+2. Populate galaxy_env with your connection parameters.
 
-    % cp galaxy_env.sample galaxy_env
-    % vim galaxy_env
+        % cp galaxy_env.sample galaxy_env
+        % vim galaxy_env
 
   Also see env_defaults for additional parameters you can tweak.
 
-* Populate fabricrc.txt with your CloudBioLinux install options.
+3. Populate fabricrc.txt with your CloudBioLinux install options.
 
-    % cp fabricrc.txt.sample fabricrc.txt
-    % vim fabricrc.txt
+        % cp fabricrc.txt.sample fabricrc.txt
+        % vim fabricrc.txt
 
-* Populate user_data with your CloudMan launch options.
+4. Populate user_data with your CloudMan launch options.
 
-    % cp user_data.template user_data
-    % vim user_data
+        % cp user_data.template user_data
+        % vim user_data
 
-* Setup a VPN connection into your OpenStack VPN (optional and outside
+5. Setup a VPN connection into your OpenStack VPN (optional and outside
   the scope of this document.)
 
-* Setup an OpenStack keypair. 
+6. Setup an OpenStack keypair. 
 
-    % ./setup_key.sh
+        % ./setup_key.sh
 
-* Setup your OpenStack security group.
+7. Setup your OpenStack security group.
 
-    % ./setup_security.sh
+        % ./setup_security.sh
 
-* Launch a stock Ubuntu 12.04 instance.
+8. Launch a stock Ubuntu 12.04 instance.
 
-    % ./launch_initial.sh
+        % ./launch_initial.sh
 
-* Install CloudMan (via CloudBioLinux).
+9. Install CloudMan (via CloudBioLinux).
 
-    % ./install_cloudman.sh
+        % ./install_cloudman.sh
 
-* Take a snapshot of this CloudMan instance.
+10. Take a snapshot of this CloudMan instance.
 
-    % ./snapshot.sh
+        % ./snapshot.sh
 
-* Launch CloudMan.
+11. Launch CloudMan.
 
-    % ./launch_cm.sh
+        % ./launch_cm.sh
 
-* Assign it a public IP address.
+12. Assign it a public IP address.
 
-    % ./assign_ip.sh
+        % ./assign_ip.sh
 

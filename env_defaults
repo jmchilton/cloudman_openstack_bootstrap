@@ -26,6 +26,9 @@ export INSTANCE_NAME_SETUP=${INSTANCE_NAME_SETUP:-cloudman_bootstrap}
 # launch_cm.sh
 export INSTANCE_NAME_RUNTIME=${INSTANCE_NAME_RUNTIME:-galaxy_master}
 
+# Default snapshot file name
+export DEFAULT_SNAPSHOT_FILENAME=${DEFAULT_SNAPSHOT_FILENAME:-latest_snapshot}
+
 # Location of cloudbiolinux
 export CBL_HOME=${CBL_HOME:-$PROJECT_DIRECTORY/cloudbiolinux}
 

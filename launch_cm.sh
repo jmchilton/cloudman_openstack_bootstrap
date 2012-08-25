@@ -8,13 +8,11 @@
 # user data specified by the file user_data.
 
 . galaxy_env
-. latest_snapshot
 
-if [ ! -e user_data ];
-then
-    cp user_data.template user_data
-fi
-sed -i  -e "s/EC2_ACCESS_KEY/$EC2_ACCESS_KEY/" user_data
-sed -i  -e "s/EC2_SECRET_KEY/$EC2_SECRET_KEY/" user_data
+instance_name=${1:-$INSTANCE_NAME_RUNTIME}
+snapshot_file=${2:-$DEFAULT_SNAPSHOT_FILENAME}
+. $snapshot_file
 
-nova boot --flavor="$FLAVOR" --image="$CLOUDMAN_IMAGE_ID"  --security_groups="$SECGROUP" --key_name="$KEYNAME" --user_data=user_data  "$INSTANCE_NAME_RUNTIME"
+python util/merge_userdata.py "$instance_name"
+
+nova boot --flavor="$FLAVOR" --image="$CLOUDMAN_IMAGE_ID"  --security_groups="$SECGROUP" --key_name="$KEYNAME" --user_data="userdata-$instance_name.merged.yaml"  "$instance_name"

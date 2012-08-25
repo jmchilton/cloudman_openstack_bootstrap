@@ -11,7 +11,7 @@
 . galaxy_env
 
 instance_name=${1:-$INSTANCE_NAME_SETUP}
-snapshot_file=${2:-latest_snapshot}
+snapshot_file=${2:-$DEFAULT_SNAPSHOT_FILENAME}
 
 id=$(nova list | grep "$instance_name" | awk '{print $2}')
 thedate=`date +%F_%H%M%S`

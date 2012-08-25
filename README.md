@@ -40,8 +40,8 @@ what you get ;)
 
 4. Populate user_data with your CloudMan launch options.
 
-        % cp user_data.template user_data
-        % vim user_data
+        % cp userdata-default.yaml.sample userdata-default.yaml
+        % vim userdata-default.yaml
 
 5. Setup a VPN connection into your OpenStack VPN (optional and outside
   the scope of this document.)

@@ -1,6 +1,6 @@
 cloudbiolinux
 galaxy_env
-user_data
+userdata-*.yaml
 galaxy_key
 galaxy_key.pub
 latest_snapshot*

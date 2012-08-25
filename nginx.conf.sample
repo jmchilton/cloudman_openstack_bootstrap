@@ -74,6 +74,20 @@ http {
             proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
         }
 
+       # For API access, set REMOTE_USER if available so Galaxy 
+       # session based requests are let through, if REMOTE_USER is not    
+       # available pass the request through and let Galaxy determine
+       # if a key is present and valid.
+       location  /api {
+            proxy_set_header REMOTE_USER $remote_user;
+
+            proxy_pass  http://galaxy_app;
+            proxy_set_header   X-Forwarded-Host $host;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+
+
+
         location /static {
             alias /opt/galaxy/web/static;
             expires 24h;

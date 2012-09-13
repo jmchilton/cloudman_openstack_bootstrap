@@ -15,4 +15,4 @@ snapshot_file=${2:-$DEFAULT_SNAPSHOT_FILENAME}
 
 python util/merge_userdata.py "$instance_name"
 
-nova boot --flavor="$FLAVOR" --image="$CLOUDMAN_IMAGE_ID"  --security_groups="$SECGROUP" --key_name="$KEYNAME" --user_data="userdata-$instance_name.merged.yaml"  "$instance_name"
+nova boot --flavor="$FLAVOR" --image="$CLOUDMAN_IMAGE_ID"  --security_groups="$SECGROUP" --key_name="$KEYNAME" --user_data="userdata-$instance_name.merged.yaml"  "$instance_name" 

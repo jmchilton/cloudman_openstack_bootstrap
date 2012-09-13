@@ -17,4 +17,4 @@ done
 
 PACKAGE_LIST_ARG=${2:-$CBL_PACKAGE_LIST}
 echo "Install CloudBioLinux with package list: $PACKAGE_LIST_ARG"
-fab -i "$KEYFILE" -f fabfile.py -H ubuntu@"$1" -c "$CBL_FABRICRC" "install_biolinux:packagelist=$PACKAGE_LIST_ARG"
+cblfab "$1" "install_biolinux:packagelist=$PACKAGE_LIST_ARG"

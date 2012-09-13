@@ -51,4 +51,6 @@ fi
 
 # Shortcuts to ease ssh/scp into cloud instance.
 alias cblssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $KEYFILE -l ubuntu "
-alias cblscp="scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $KEYFILE -l ubuntu"
+alias cblscp="scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $KEYFILE "
+alias cblfab="fab -u ubuntu -c "$CBL_FABRICRC" -i "$KEYFILE" -H"
+alias cblrsync="rsync -e \"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $KEYFILE\"" 

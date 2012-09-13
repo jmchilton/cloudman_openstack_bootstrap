@@ -3,6 +3,7 @@ galaxy_env
 userdata-*.yaml
 galaxy_key
 galaxy_key.pub
-latest_snapshot*
+latest*snapshot*
 fabricrc.txt
 nginx.conf
+*.pyc

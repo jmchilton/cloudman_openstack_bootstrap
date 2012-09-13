@@ -7,4 +7,4 @@
 
 . galaxy_env
 
-cblssh "$1"
+cblssh "$@"

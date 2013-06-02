@@ -14,8 +14,15 @@ secret_key: EC2_SECRET_KEY
 
 cloud_type: openstack
 use_default_bucket: True
-default_bucket_url: https://bitbucket.org/jmchilton/cloudman/raw/tip/
-cloudman_repository: https://bitbucket.org/jmchilton/cloudman/get/tip.tar.gz
+default_bucket_url: https://raw.github.com/jmchilton/cloudman/git/
+cloudman_repository: https://github.com/jmchilton/cloudman/archive/git.tar.gz
+
+ignore_unsatisfiable_dependencies: True
+
+# galaxy_universe_ftp_upload_dir_identifier: username
+# galaxy_universe_ftp_upload_site: "galaxyp.msi.umn.edu"
+
+
 # Disable object store interactions.
 use_object_store: False
 services:
@@ -24,22 +31,32 @@ services:
 # - name: Postgres
   - name: Galaxy
 
+extra_nfs_mounts:
+  - /opt
+
+
 ## Override various directories locations to find galaxy, tools, and
 ## configuration directory.
 
-galaxy_tools: /opt/galaxy/tools
+galaxy_tools: /opt/galaxy/
 galaxy_home: /opt/galaxy/web
 galaxy_conf_dir: /opt/galaxy/web/conf.d
 
+
+galaxy_universe_allow_user_dataset_purge: True
+galaxy_universe_cleanup_job: onsuccess
+
 galaxy_universe_default_cluster_job_runner: "drmaa:///"
+galaxy_universe_start_job_runners: drmaa
 galaxy_universe_start_job_runners: drmaa
 
 # Set up galaxy to use LDAP, none of this would be needed in a more
 # vanilla CloudMan configuration.
 galaxy_universe_use_remote_user: True
 galaxy_universe_remote_user_maildomain: msi.umn.edu
-galaxy_universe_remote_user_logout_href: http://logout@galaxyp.msi.umn.edu/
+galaxy_universe_remote_user_logout_href: https://logout@galaxyp.msi.umn.edu/
 galaxy_universe_require_login: True
+
 
 # Setup Galaxy to use a database hosted outside the cloud
 galaxy_universe_database_connection: postgres://galaxy:abcdefg@db.example.org:5432/galaxy
@@ -51,4 +68,26 @@ galaxy_universe_allow_library_path_paste = True
 master_prestart_commands:
   - "mkdir -p /mnt/galaxyData"
   - "mount -t nfs4 -o sec=sys nfs.example.org:/export/galaxy /mnt/galaxyData/"
+
+galaxy_universe_allow_library_path_paste: True
+ 
+# galaxy_universe_local_job_queue_workers: 1
+galaxy_universe_cluster_files_directory: /mnt/galaxyData/cluster_files
+ 
+galaxy_universe_use_composite_multifiles: True
+galaxy_universe_use_tool_parallelism: False
+
+
+hadoop_enabled: False
+condor_enabled: False
+
+instance_reboot_attempts: 0
+instance_comm_timeout: 300
+instance_state_change_wait: 3600
+instance_terminate_attempts: 4
+
+filesystems:
+services:
+  - name: Galaxy
+  - name: GalaxyReports
 

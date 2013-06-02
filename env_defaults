@@ -33,7 +33,7 @@ export DEFAULT_SNAPSHOT_FILENAME=${DEFAULT_SNAPSHOT_FILENAME:-latest_snapshot}
 export CBL_HOME=${CBL_HOME:-$PROJECT_DIRECTORY/cloudbiolinux}
 
 # CloudBioLinux package targetted by install_cloudman.sh
-export CBL_PACKAGE_LIST=${CBL_PACKAGE_LIST:-$CBL_HOME/contrib/cloudman/cloudman_and_galaxy.yaml}
+export CBL_FLAVOR=${CBL_FLAVOR:-cloudman/cloudman_and_galaxy}
 
 # CloudBioLinux fabricrc file.
 export CBL_FABRICRC=${CBL_FABRICRC:-$PROJECT_DIRECTORY/fabricrc.txt}
@@ -42,6 +42,7 @@ export CBL_FABRICRC=${CBL_FABRICRC:-$PROJECT_DIRECTORY/fabricrc.txt}
 # to specify some internal MSI apt repositories and packages.
 EMPTY_ARRAY=()
 export CBL_PREINSTALL_CMDS=${CBL_PREINSTALL_CMDS:-$EMPTY_ARRAY}
+export CBL_POSTINSTALL_CMDS=${CBL_POSTINSTALL_CMDS:-$EMPTY_ARRAY}
 
 # Allow aliases to be used in other scripts.
 if [ -n "$BASH_VERSION" ];

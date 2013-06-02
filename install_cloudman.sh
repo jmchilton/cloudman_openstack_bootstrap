@@ -15,6 +15,12 @@ do
     cblssh "$1" /bin/bash -c "'$PREINSTALL_COMMAND'"
 done
 
-PACKAGE_LIST_ARG=${2:-$CBL_PACKAGE_LIST}
-echo "Install CloudBioLinux with package list: $PACKAGE_LIST_ARG"
-cblfab "$1" "install_biolinux:packagelist=$PACKAGE_LIST_ARG"
+CBL_FLAVOR_ARG=${2:-$CBL_FLAVOR}
+echo "Install CloudBioLinux with flavor: $CBL_FLAVOR_ARG"
+cblfab "$1" "install_biolinux:flavor=$CBL_FLAVOR_ARG"
+
+for POSTINSTALL_COMMAND in "${CBL_POSTINSTALL_CMDS[@]}"
+do
+    echo "Running command $POSTINSTALL_COMMAND"
+    cblssh "$1" /bin/bash -c "'$POSTINSTALL_COMMAND'"
+done

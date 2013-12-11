@@ -8,6 +8,7 @@
 
 . galaxy_env
 
+# TODO: restrict SSH access to UMN or other
 # SSH
 nova secgroup-add-rule "$SECGROUP" tcp 22 22 0.0.0.0/0
 

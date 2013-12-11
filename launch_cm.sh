@@ -9,6 +9,8 @@
 
 . galaxy_env
 
+export SECGROUP=ftps,default
+
 instance_name=${1:-$INSTANCE_NAME_RUNTIME}
 snapshot_file=${2:-$DEFAULT_SNAPSHOT_FILENAME}
 . $snapshot_file
